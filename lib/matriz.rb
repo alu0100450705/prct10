@@ -137,42 +137,55 @@ end
 class MatrizDispersa < Matriz
     #modificar el initialize,pues no necesito almacenar los '0' guardar los indices donde se encuentran dichos ceros
     #metodo que dado una fila y columna y un porcentaje de ceros prc,construye una matriz aleatoria
-    attr_reader :hash_ceros
+    attr_reader :hash_ceros,:array_ceros
     def initialize(f,c,prc)    
        raise ArgumentError, 'El primer argumento no es numerico' unless f.is_a? Numeric
        raise ArgumentError, 'El segundo argumento no es numerico' unless c.is_a? Numeric
-       raise ArgumentError, 'El tercer argumento no es numerico' unless prc.is_a? Numeric             
+       raise ArgumentError, 'El tercer argumento no es un numero flotante' unless prc.is_a? Float            
        @filas = f
        @columnas = c
        n_elementos= f*c  
-       if (prc<60) || (prc>=100)
+       if (prc<0.6) || (prc>0.99)
           raise RuntimeError, "el porcentaje de ceros 'prc' debe estar en el intervalo [60,100],incluido los extremos"
        else
-          n_ceros= ((n_elementos/100)*prc).round #round redonde al entero mas proximo	    
-	  puts n_ceros.size
+          n_ceros= (n_elementos*prc).round #round redonde al entero mas proximo	    
+# 	  puts "valor de n_ceros= #{n_ceros}"
           #contruyo la estructura donde me indique las posiciones en las que hay 0
-	  array_ceros=Array.new
-	  #itero hasta el numero de ceros
+	  @array_ceros=Array.new
+	  @array_no_ceros=Array.new
+	  #itero hasta el numero de ceros y los guardo en un vector
 	  n_ceros.times do |i|
-	     puts i
-	     pos_cero=rand(n_elementos+1)  #me da una posicion de las posibles filas*columnas	
-	     array_ceros << pos_cero
-	     puts array_ceros.size
+# 	     puts i
+	     pos_cero=rand(n_elementos)  #me da una posicion de las posibles filas*columnas(se repite a veces,buscar mejora)
+	     @array_ceros << pos_cero
 	  end
-# 	  puts array_ceros.size
-	  @hash_ceros = {:posicion_ceros => array_ceros}
-	  
-# 	  elemento_fila=Array.new(f,[])
-#           elemento = Array.new(c,elemento_fila)
-#           @matriz=Matriz.new(elemento)
-#           @matriz=Array.new(@columnas,Array.new[@filas])
+	  i=0
+	  while (i < ((@filas*@columnas)-n_ceros))  do
+             @array_no_ceros << rand(n_elementos)   
+          end
+# 	  puts "tamaño del vector ceros #{array_ceros.size}"
+# 	  puts array_ceros
+# 	  @hash_ceros = {:posicion_ceros => array_ceros}
+
        end
     end
-    
+
     def to_s
-       @hash_ceros.each do |name,grade|
-          print "#{name} : #{grade} "
+       self.filas.times |i| do
+          self.columnas.times |j| do
+	     begin
+	        k=i+j
+	        if (self.array_ceros.include? k)  #si la posicion k esta dentro del array_ceros es que debo mostrar un cero en esa posicion
+                   print "0  "
+	        else
+	           print "#{self.array_no_ceros[k]} " 
+	        end
+	     end
+	  end
        end
+#        @hash_ceros.each do |clave,valor|
+#           print "#{clave} : #{valor} "
+#        end
        puts
     end
     
@@ -184,11 +197,10 @@ class MatrizDispersa < Matriz
 #           return false
 #        end
 #     end
-    
 end
 
 # m1 = Matriz.new([[2,0,1],[3,0,0],[5,1,1]])
 # m2 = Matriz.new([[1,0,1],[1,2,1],[1,1,0]])
 # puts m3=m1+m2
-md1=MatrizDispersa.new(3,3,60)
+md1=MatrizDispersa.new(3,3,0.60)
 puts md1
