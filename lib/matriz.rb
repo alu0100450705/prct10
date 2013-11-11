@@ -137,41 +137,53 @@ end
 class MatrizDispersa < Matriz
     #modificar el initialize,pues no necesito almacenar los '0' guardar los indices donde se encuentran dichos ceros
     #metodo que dado una fila y columna y un porcentaje de ceros prc,construye una matriz aleatoria
+    attr_reader :hash_ceros
     def initialize(f,c,prc)    
        raise ArgumentError, 'El primer argumento no es numerico' unless f.is_a? Numeric
        raise ArgumentError, 'El segundo argumento no es numerico' unless c.is_a? Numeric
-       raise ArgumentError, 'El tercer argumento no es numerico' unless prc.is_a? Numeric
+       raise ArgumentError, 'El tercer argumento no es numerico' unless prc.is_a? Numeric             
        @filas = f
        @columnas = c
-       n_elementos= f*c #comprobar que f y c son tipos numericos,si no error
+       n_elementos= f*c  
        if (prc<60) || (prc>=100)
           raise RuntimeError, "el porcentaje de ceros 'prc' debe estar en el intervalo [60,100],incluido los extremos"
        else
-          n_ceros= ((n_elementos/100)*prc).round #round redonde al entero mas proximo
-          @matriz=Array.new(@columnas,Array.new[@filas])
-	  @filas.times do |i|
-             @columnas.times do |j| 
-	        #rand(2) devuelve un numero entero entre 0..1 
-	        if (rand(2)==0)&& (n_ceros==0) #En cada iteracion decido si pongo un cero o no en la posicion i,j,pondre n_ceros 
-		   matriz[i][j]=0
-		   n_ceros-=1 
-		else
-		   num=rand(10)
-		   matriz[i][j]=num #si no pongo un numero entero entre 0..9
-		end
-	     end
-          end
+          n_ceros= ((n_elementos/100)*prc).round #round redonde al entero mas proximo	    
+	  puts n_ceros.size
+          #contruyo la estructura donde me indique las posiciones en las que hay 0
+	  array_ceros=Array.new
+	  #itero hasta el numero de ceros
+	  n_ceros.times do |i|
+	     puts i
+	     pos_cero=rand(n_elementos+1)  #me da una posicion de las posibles filas*columnas	
+	     array_ceros << pos_cero
+	     puts array_ceros.size
+	  end
+# 	  puts array_ceros.size
+	  @hash_ceros = {:posicion_ceros => array_ceros}
+	  
+# 	  elemento_fila=Array.new(f,[])
+#           elemento = Array.new(c,elemento_fila)
+#           @matriz=Matriz.new(elemento)
+#           @matriz=Array.new(@columnas,Array.new[@filas])
        end
     end
     
-    #Necesito un metodo que dada una posion i,j dentro del vector me devuelva true si esa posicion es un 0 para realizar las operaciones  conforme a ello.
-    def es_cero(i,j)
-       if (matriz[i][j]==0)
-          return true
-       else 
-          return false
+    def to_s
+       @hash_ceros.each do |name,grade|
+          print "#{name} : #{grade} "
        end
+       puts
     end
+    
+    #Necesito un metodo que dada una posion i,j dentro del vector me devuelva true si esa posicion es un 0 para realizar las operaciones  conforme a ello.
+#     def es_cero(i,j)
+#        if (matriz[i][j]==0)
+#           return true
+#        else 
+#           return false
+#        end
+#     end
     
 end
 
