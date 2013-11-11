@@ -95,7 +95,8 @@ end
   
 #Clase Base que contiene el metodo initilize y los getters. Además contiene el to_s y el método [] 
 class Matriz
-   require "racional.rb"
+   require "gcd.rb"   #definicion del metodo maximo comun divisor
+   require "racional.rb" #definicion de la clase racional
    include Operatoria
    attr_reader :matriz, :filas, :columnas
    
@@ -135,9 +136,47 @@ end
 
 class MatrizDispersa < Matriz
     #modificar el initialize,pues no necesito almacenar los '0' guardar los indices donde se encuentran dichos ceros
+    #metodo que dado una fila y columna y un porcentaje de ceros prc,construye una matriz aleatoria
+    def initialize(f,c,prc)    
+       raise ArgumentError, 'El primer argumento no es numerico' unless f.is_a? Numeric
+       raise ArgumentError, 'El segundo argumento no es numerico' unless c.is_a? Numeric
+       raise ArgumentError, 'El tercer argumento no es numerico' unless prc.is_a? Numeric
+       @filas = f
+       @columnas = c
+       n_elementos= f*c #comprobar que f y c son tipos numericos,si no error
+       if (prc<60) || (prc>=100)
+          raise RuntimeError, "el porcentaje de ceros 'prc' debe estar en el intervalo [60,100],incluido los extremos"
+       else
+          n_ceros= ((n_elementos/100)*prc).round #round redonde al entero mas proximo
+          @matriz=Array.new(@columnas,Array.new[@filas])
+	  @filas.times do |i|
+             @columnas.times do |j| 
+	        #rand(2) devuelve un numero entero entre 0..1 
+	        if (rand(2)==0)&& (n_ceros==0) #En cada iteracion decido si pongo un cero o no en la posicion i,j,pondre n_ceros 
+		   matriz[i][j]=0
+		   n_ceros-=1 
+		else
+		   num=rand(10)
+		   matriz[i][j]=num #si no pongo un numero entero entre 0..9
+		end
+	     end
+          end
+       end
+    end
+    
     #Necesito un metodo que dada una posion i,j dentro del vector me devuelva true si esa posicion es un 0 para realizar las operaciones  conforme a ello.
+    def es_cero(i,j)
+       if (matriz[i][j]==0)
+          return true
+       else 
+          return false
+       end
+    end
+    
 end
 
-m1 = Matriz.new([[2,0,1],[3,0,0],[5,1,1]])
-m2 = Matriz.new([[1,0,1],[1,2,1],[1,1,0]])
-puts m3=m1+m2
+# m1 = Matriz.new([[2,0,1],[3,0,0],[5,1,1]])
+# m2 = Matriz.new([[1,0,1],[1,2,1],[1,1,0]])
+# puts m3=m1+m2
+md1=MatrizDispersa.new(3,3,60)
+puts md1
