@@ -1,5 +1,8 @@
 require "matrizHM/version"
 
 module MatrizHM
-  # Your code goes here...
+   require "gcd.rb"
+   require "racional.rb"
+   require "matriz.rb"
+   class 
 end
