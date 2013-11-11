@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = MatrizHM::VERSION
   spec.authors       = ["Hamilton Steven Cubillos & Marcos Díaz García"]
   spec.email         = ["hamiltonetsii@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = %q{Construcción de una gema ruby para la creación de matrices dispersas y densas,que heredan de la clase base Matriz hecha en prácticas anteriores}
+  spec.summary       = %q{Se trata de contruir otra estructura para las matrices dispersas y realizar la operatoria necesaria para realizar los mismos algoritmos que las matrices densas}
+  spec.homepage      = "https://github.com/alu0100545630/gemaHM.git"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -20,4 +20,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+#   s.add_development_dependency "rspec"
 end
