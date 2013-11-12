@@ -95,8 +95,8 @@ end
   
 #Clase Base que contiene el metodo initilize y los getters. Además contiene el to_s y el método [] 
 class Matriz
-   require "gcd.rb"   #definicion del metodo maximo comun divisor
-   require "racional.rb" #definicion de la clase racional
+#    require "./gcd.rb"   #definicion del metodo maximo comun divisor
+#    require "./racional.rb" #definicion de la clase racional
    include Operatoria
    attr_reader :matriz, :filas, :columnas
    
@@ -137,70 +137,72 @@ end
 class MatrizDispersa < Matriz
     #modificar el initialize,pues no necesito almacenar los '0' guardar los indices donde se encuentran dichos ceros
     #metodo que dado una fila y columna y un porcentaje de ceros prc,construye una matriz aleatoria
-    attr_reader :hash_ceros,:array_ceros
-    def initialize(f,c,prc)    
-       raise ArgumentError, 'El primer argumento no es numerico' unless f.is_a? Numeric
-       raise ArgumentError, 'El segundo argumento no es numerico' unless c.is_a? Numeric
-       raise ArgumentError, 'El tercer argumento no es un numero flotante' unless prc.is_a? Float            
-       @filas = f
-       @columnas = c
-       n_elementos= f*c  
-       if (prc<0.6) || (prc>0.99)
-          raise RuntimeError, "el porcentaje de ceros 'prc' debe estar en el intervalo [60,100],incluido los extremos"
-       else
-          n_ceros= (n_elementos*prc).round #round redonde al entero mas proximo	    
-# 	  puts "valor de n_ceros= #{n_ceros}"
-          #contruyo la estructura donde me indique las posiciones en las que hay 0
-	  @array_ceros=Array.new
-	  @array_no_ceros=Array.new
-	  #itero hasta el numero de ceros y los guardo en un vector
-	  n_ceros.times do |i|
-# 	     puts i
-	     pos_cero=rand(n_elementos)  #me da una posicion de las posibles filas*columnas(se repite a veces,buscar mejora)
-	     @array_ceros << pos_cero
-	  end
-	  i=0
-	  while (i < ((@filas*@columnas)-n_ceros))  do
-             @array_no_ceros << rand(n_elementos)   
-          end
-# 	  puts "tamaño del vector ceros #{array_ceros.size}"
-# 	  puts array_ceros
-# 	  @hash_ceros = {:posicion_ceros => array_ceros}
-
-       end
-    end
-
+    attr_reader :hash_no_ceros
+    
+   def initialize(matriz)
+      #comprobamos que la matriz es dispersa o no
+      n_elementos= (matriz.size * matriz[0].size)*0.6 
+      @filas = matriz.size
+      @columnas = matriz[0].size
+      n_ceros=0
+      @hash_no_ceros={}
+      filas.times do |i|
+         columnas.times do |j|
+	    if (matriz[i][j]==0)  
+	       n_ceros=n_ceros+1
+	    else
+	       #hash
+	       pos_no_cero="#{i}#{j}"
+	       @hash_no_ceros[pos_no_cero]=matriz[i][j] 
+	    end
+	 end
+      end
+      
+      if n_ceros < n_elementos
+         raise RuntimeError, 'La Matriz no es dispersa'
+      else
+      end
+      
+   end
+    
     def to_s
-       self.filas.times |i| do
-          self.columnas.times |j| do
-	     begin
-	        k=i+j
-	        if (self.array_ceros.include? k)  #si la posicion k esta dentro del array_ceros es que debo mostrar un cero en esa posicion
-                   print "0  "
-	        else
-	           print "#{self.array_no_ceros[k]} " 
-	        end
-	     end
-	  end
-       end
-#        @hash_ceros.each do |clave,valor|
+#        @hash_no_ceros.each do |clave,valor|
 #           print "#{clave} : #{valor} "
 #        end
-       puts
+#        puts
+       filas.times do |i|
+         columnas.times do |j|
+	    if (hash_no_ceros.key?("#{i}#{j}"))
+	       print hash_no_ceros["#{i}#{j}"]
+	       print "  "
+	    else
+	       print "0  "
+	    end
+	 end
+	 puts
+       end
+    end #def to_s
+    
+    def +(other)
+      raise TypeError, "La matriz other no es dispersa" unless other.instance_of? MatrizDispersa
+      raise ArgumentError, "La longitud de las matrices no coincide." unless @filas == other.filas && @columnas == other.columnas
+      suma=MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
+      suma=hash_no_ceros.merge(other.hash_no_ceros){|key,oldval,newval| oldval+newval}
+#       puts hash_no_ceros
+      return suma
     end
     
     #Necesito un metodo que dada una posion i,j dentro del vector me devuelva true si esa posicion es un 0 para realizar las operaciones  conforme a ello.
-#     def es_cero(i,j)
-#        if (matriz[i][j]==0)
-#           return true
-#        else 
-#           return false
-#        end
-#     end
+    def es_cero(i,j)
+       if (matriz[i][j]==0)
+          return true
+       else 
+          return false
+       end
+    end
 end
 
-# m1 = Matriz.new([[2,0,1],[3,0,0],[5,1,1]])
-# m2 = Matriz.new([[1,0,1],[1,2,1],[1,1,0]])
-# puts m3=m1+m2
-md1=MatrizDispersa.new(3,3,0.60)
+
+md1=MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
 puts md1
+
