@@ -1,4 +1,6 @@
 # coding: utf-8
+require "racional.rb" #definicion de la clase racional
+
 module Operatoria
      
    #Funcion que asigna un valor k a una posicion i,j dentro de la matriz
@@ -34,7 +36,7 @@ module Operatoria
    def Producto_escalar (other)
       mul = Matriz.new(matriz)
       self.filas.times do |i|  
-         self.columas.times do |j|
+         self.columnas.times do |j|
             mul.matriz[i][j] = self.matriz[i][j] * other
          end
       end
@@ -64,7 +66,7 @@ module Operatoria
    def -@ 
    op = Matriz.new(matriz)
       self.filas.times do |i|   		
-         self.columas.times do |j|
+         self.columnas.times do |j|
             op.matriz[i][j] = -self.matriz[i][j]
          end
       end
@@ -95,8 +97,7 @@ end
   
 #Clase Base que contiene el metodo initilize y los getters. Además contiene el to_s y el método [] 
 class Matriz
-#    require "./gcd.rb"   #definicion del metodo maximo comun divisor
-#    require "./racional.rb" #definicion de la clase racional
+    
    include Operatoria
    attr_reader :matriz, :filas, :columnas
    
