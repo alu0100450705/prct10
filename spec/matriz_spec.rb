@@ -31,68 +31,117 @@ describe Matriz do
   @MatrizBmul = Matriz.new([[1,0,1],[1,2,1],[1,1,0]])
   @Matriz_Resultado_mul = Matriz.new([[3,1,2],[3,0,3],[7,3,6]])
   
-  end
-	it "Deben existir filas " do
-		(defined?(@MatrizA.filas)).should be_true
-	end
-	
-	it "Deben existir columnas " do
-		(defined?(@MatrizA.columnas)).should be_true
-	end
-	
-	it "Tamano de filas " do
-		@MatrizA.filas.should eq 2
-	end
-	
-	it "Tamano de columnas " do
-		@MatrizA.columnas.should eq 2
-	end
-	
-	it "Se puede accerdera un subindice" do 
-		@MatrizA.matriz[0][0].should eq 1
-	end
-	
-	it "Se puede modificar un subindice" do 
-		@MatrizC.matriz[0][0] = 2
-		@MatrizA.matriz[0][0].should eq 1
-	end
-	
-	it "Se debe poder sumar dos matrices de enteros" do
-		( @MatrizA + @MatrizB ).should eq @Matriz_Resultado
-	end
   
-   it "Se debe poder restar dos matrices de enteros" do
-    #(@MatrizA - @MatrizB ).should eq @Matriz_Resultado1
-   end
-  
-  it "Se debe poder multiplicar por un numero" do
-    (@MatrizA.Producto_escalar (2) ).should eq @Matriz_Resultado
+  #matrices dispersas
+  @MaDis =  MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
+	@MaDis2 = MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
+	@MaDis3 = MatrizDispersa.new([[0,0,0],[2,4,6],[0,0,0]])
+  @MaDis4 = MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
   end
   
-  it "Se debe poder multiplicar 2 matrices de enteros" do
-    (@MatrizAmul *  @MatrizBmul ).should eq @Matriz_Resultado_mul
+  describe "Debe existir " do
+		it "filas " do
+			(defined?(@MatrizA.filas)).should be_true
+		end
+		
+		it "columnas " do
+			(defined?(@MatrizA.columnas)).should be_true
+		end
+		
+		it "Tamano de filas " do
+			@MatrizA.filas.should eq 2
+		end
+		
+		it "Tamano de columnas " do
+			@MatrizA.columnas.should eq 2
+		end
+	end
+	
+	describe "Se puede " do
+			it "accerdera un subindice" do 
+				@MatrizA.matriz[0][0].should eq 1
+			end
+			
+			it "modificar un subindice" do 
+				@MatrizC.matriz[0][0] = 2
+				@MatrizA.matriz[0][0].should eq 1
+			end
+			
+			it "sumar dos matrices de enteros" do
+				( @MatrizA + @MatrizB ).should eq @Matriz_Resultado
+			end
+			
+			 it "restar dos matrices de enteros" do
+				#(@MatrizA - @MatrizB ).should eq @Matriz_Resultado1
+			 end
+			
+			it "multiplicar por un numero" do
+				(@MatrizA.Producto_escalar (2) ).should eq @Matriz_Resultado
+			end
+			
+			it "multiplicar 2 matrices de enteros" do
+				(@MatrizAmul *  @MatrizBmul ).should eq @Matriz_Resultado_mul
+			end
   end
   
-  it "Se debe poder compara 2 matrices" do
-	(@MatrizA == @MatrizB).should eq true
-  end
   
-  it "Se debe poder hacer el opuesto" do 
-	(-@MatrizA).should eq @Matrizop
-  end
-  
-  it "Se debe poder sumar dos matrices de racionales" do
-	(@MatrizA_frac + @MatrizB_frac).should eq @Matriz_Resultado_frac
+  describe "de debe " do 
+			it "poder compara 2 matrices" do
+			(@MatrizA == @MatrizB).should eq true
+			end
+			
+			it "poder hacer el opuesto" do 
+			(-@MatrizA).should eq @Matrizop
+			end
+			
+			it "poder sumar dos matrices de racionales" do
+			(@MatrizA_frac + @MatrizB_frac).should eq @Matriz_Resultado_frac
+			
+		 end
+		 
+			it "poder restar dos matrices de racionales" do
+			(@MatrizA_frac - @MatrizB_frac).should eq @Matriz_Resultado_frac_rest
+		 end
+		 
+			 it "poder multiplicar dos matrices de racionales" do
+			(@MatrizA_frac * @MatrizB_frac).to_s.should eq (@Matriz_Resultado_frac_mul.to_s)
+		 end
+ end
+ 
+ describe "se poder comprobar si la " do
+		it " matriz es dispersa" do
+			MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
+		end
+		it "matriz densa" do
+			MatrizDensa.new([[0,0,0],[1,2,3],[1,1,0]])
+		end
 	
  end
  
-  it "Se debe poder restar dos matrices de racionales" do
-	(@MatrizA_frac - @MatrizB_frac).should eq @Matriz_Resultado_frac_rest
+ describe "Se puede " do
+	it "sumar 2 matrices dispersas" do
+
+		(@MaDis +  @MaDis2).should eq @MaDis3
+		
+	end
+	
+	it "restar 2 matrices dispersas"do
+		(@MaDis3 -  @MaDis2).should eq @MaDis4
+	end
  end
  
-   it "Se debe poder multiplicar dos matrices de racionales" do
-	(@MatrizA_frac * @MatrizB_frac).to_s.should eq (@Matriz_Resultado_frac_mul.to_s)
+ describe "Se puede sumar una matriz dispersa" do
+	it " con una densa" do
+		@MaDis =  MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
+		@MaDen = MatrizDensa.new([[1,2,0],[1,2,3],[0,0,0]])
+		@MaDenResul = MatrizDensa.new([[1,2,0],[2,4,6],[0,0,0]])
+		
+		(@MaDen +  @MaDis).should eq @MaDenResul
+		
+	end
  end
  
+ 
+  
  
 end

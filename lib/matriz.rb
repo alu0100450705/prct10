@@ -99,7 +99,7 @@ end
 class Matriz
     
    include Operatoria
-   attr_reader :matriz, :filas, :columnas
+   attr_accessor :matriz, :filas, :columnas
    
    def initialize(matriz)
       @matriz = Array.new(matriz)
@@ -122,21 +122,16 @@ class Matriz
    
       #Imprime la matrices
    def to_s
-      self.columnas.times do |i|   
-         self.filas.times do |j|
+      filas.times do |i|   
+         columnas.times do |j|
             print "#{matriz[i][j]}  "
          end
-	 puts
+				puts
       end
       puts 
    end
       
-#    
-#       muestra la matriz (los indices empiezan por 0) seleccionando en el primer elemento el subarray al que pertenece el elemento que se quiere mostrar ,luego con el otro atributo seleccionamos la posicion que ocupa dicho elemento en este subvector.
-#       ejemplo:  m1=[ [1,2,3] , [4,5,6] ]
-#       puts m1[0,1] -> 2
-#       puts m1[1,1] -> 6
-#    
+
    def [](i,j)
       matriz[i][j]
    end
@@ -145,31 +140,46 @@ end
 
 #matriz normal
 class MatrizDensa < Matriz
+
+	def +(other)
+			suma=MatrizDensa.new(Array.new(@filas,1){Array.new(@columnas,1)})
+			 filas.times do |i|
+         columnas.times do |j|
+						if (other.hash_no_ceros.key?("#{i}#{j}"))
+							suma.matriz[i][j] = other.hash_no_ceros["#{i}#{j}"] + matriz[i][j]
+						else
+							suma.matriz[i][j] =  matriz[i][j]
+						end
+					end
+       end
+       return suma		
+	end
   
 end
 
 class MatrizDispersa < Matriz
     #modificar el initialize,pues no necesito almacenar los '0' guardar los indices donde se encuentran dichos ceros
     #metodo que dado una fila y columna y un porcentaje de ceros prc,construye una matriz aleatoria
-    attr_reader :hash_no_ceros
+    attr_accessor :hash_no_ceros, :filas, :columnas
     
    def initialize(matriz)
-      #comprobamos que la matriz es dispersa o no
-      n_elementos= (matriz.size * matriz[0].size)*0.6 
       @filas = matriz.size
       @columnas = matriz[0].size
-      n_ceros=0
       @hash_no_ceros={}
+      
+      
+       #comprobamos que la matriz es dispersa o no
+      n_elementos= (matriz.size * matriz[0].size)*0.6 
+      n_ceros=0
       filas.times do |i|
          columnas.times do |j|
-	    if (matriz[i][j]==0)  
-	       n_ceros=n_ceros+1
-	    else
-	       #hash
-	       pos_no_cero="#{i}#{j}"
-	       @hash_no_ceros[pos_no_cero]=matriz[i][j] 
-	    end
-	 end
+						if (matriz[i][j]==0)  
+							 n_ceros=n_ceros+1
+						else
+							 pos_no_cero="#{i}#{j}"
+							 @hash_no_ceros[pos_no_cero]=matriz[i][j] 
+						end
+					end
       end
       
       if n_ceros < n_elementos
@@ -180,10 +190,6 @@ class MatrizDispersa < Matriz
    end
     
     def to_s
-#        @hash_no_ceros.each do |clave,valor|
-#           print "#{clave} : #{valor} "
-#        end
-#        puts
        filas.times do |i|
          columnas.times do |j|
 	    if (hash_no_ceros.key?("#{i}#{j}"))
@@ -197,26 +203,30 @@ class MatrizDispersa < Matriz
        end
     end #def to_s
     
+    
     def +(other)
       raise TypeError, "La matriz other no es dispersa" unless other.instance_of? MatrizDispersa
       raise ArgumentError, "La longitud de las matrices no coincide." unless @filas == other.filas && @columnas == other.columnas
-      suma=MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
-      suma=hash_no_ceros.merge(other.hash_no_ceros){|key,oldval,newval| oldval+newval}
-#       puts hash_no_ceros
+      suma=MatrizDispersa.new(Array.new(@filas,0){Array.new(@columnas,0)})
+      suma.hash_no_ceros = (hash_no_ceros.merge(other.hash_no_ceros){|key,oldval,newval| oldval+newval}).clone
       return suma
+			
     end
     
-    #Necesito un metodo que dada una posion i,j dentro del vector me devuelva true si esa posicion es un 0 para realizar las operaciones  conforme a ello.
-    def es_cero(i,j)
-       if (matriz[i][j]==0)
-          return true
-       else 
-          return false
-       end
+     def -(other)
+      raise TypeError, "La matriz other no es dispersa" unless other.instance_of? MatrizDispersa
+      raise ArgumentError, "La longitud de las matrices no coincide." unless @filas == other.filas && @columnas == other.columnas
+      resta=MatrizDispersa.new(Array.new(@filas,0){Array.new(@columnas,0)})
+      resta.hash_no_ceros = (self.hash_no_ceros.merge(other.hash_no_ceros){|key,oldval,newval| oldval-newval}).clone
+      return resta
+			
     end
+    
+   def ==(other)
+			hash_no_ceros == other.hash_no_ceros
+   end
+    
+   
 end
 
-
-md1=MatrizDensa.new([[0,0,0],[1,2,3],[1,0,0]])
-puts md1
 
