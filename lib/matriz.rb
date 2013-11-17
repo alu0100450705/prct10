@@ -104,6 +104,19 @@ class Matriz
       @matriz = Array.new(matriz)
       @filas = matriz.size
       @columnas = matriz[0].size
+       n_elementos= (matriz.size * matriz[0].size)*0.6 
+       
+      n_ceros=0
+      filas.times do |i|
+         columnas.times do |j|
+	    if (matriz[i][j]==0)  
+	       n_ceros=n_ceros+1
+			end
+      end
+      end
+      if n_ceros > n_elementos
+         raise RuntimeError, 'La Matriz no es densa'
+      end
    end
    
       #Imprime la matrices
@@ -203,6 +216,6 @@ class MatrizDispersa < Matriz
 end
 
 
-md1=MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
+md1=MatrizDensa.new([[0,0,0],[1,2,3],[1,0,0]])
 puts md1
 
