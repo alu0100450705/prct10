@@ -105,9 +105,14 @@ class Matriz
       @matriz = Array.new(matriz)
       @filas = matriz.size
       @columnas = matriz[0].size
-       n_elementos= (matriz.size * matriz[0].size)*0.6 
-       
-      n_ceros=0
+      @n_elementos= (matriz.size * matriz[0].size)*0.6 
+      comprobar(matriz)
+     
+   end
+   
+   def comprobar (matriz)
+   
+    n_ceros=0
       filas.times do |i|
          columnas.times do |j|
 	    if (matriz[i][j]==0)  
@@ -115,7 +120,7 @@ class Matriz
 			end
       end
       end
-      if n_ceros > n_elementos
+      if n_ceros > @n_elementos
          raise RuntimeError, 'La Matriz no es densa'
       end
    end
@@ -166,11 +171,16 @@ class MatrizDispersa < Matriz
       @filas = matriz.size
       @columnas = matriz[0].size
       @hash_no_ceros={}
+       
+     #comprobamos que la matriz es dispersa o no
+     @n_elementos= (matriz.size * matriz[0].size)*0.6 
+     comprobar(matriz)
       
-      
-       #comprobamos que la matriz es dispersa o no
-      n_elementos= (matriz.size * matriz[0].size)*0.6 
-      n_ceros=0
+   end
+   
+   def comprobar (matriz)
+   
+	  n_ceros=0
       filas.times do |i|
          columnas.times do |j|
 						if (matriz[i][j]==0)  
@@ -182,11 +192,11 @@ class MatrizDispersa < Matriz
 					end
       end
       
-      if n_ceros < n_elementos
+      if n_ceros < @n_elementos
          raise RuntimeError, 'La Matriz no es dispersa'
       else
       end
-      
+   
    end
     
     def to_s
