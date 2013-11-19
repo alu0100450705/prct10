@@ -34,8 +34,8 @@ describe Matriz do
   
   #matrices dispersas
   @MaDis =  MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
-	@MaDis2 = MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
-	@MaDis3 = MatrizDispersa.new([[0,0,0],[2,4,6],[0,0,0]])
+  @MaDis2 = MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
+  @MaDis3 = MatrizDispersa.new([[0,0,0],[2,4,6],[0,0,0]])
   @MaDis4 = MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
   end
   
@@ -128,15 +128,24 @@ describe Matriz do
 	it "restar 2 matrices dispersas"do
 		(@MaDis3 -  @MaDis2).should eq @MaDis4
 	end
+	
+	it "sumar 2 matrices dispersas y den resultado una densa" do
+		@MaDis =  MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
+		@MaDis2 = MatrizDispersa.new([[1,2,3],[0,0,0],[0,0,0]])
+		@MaDenResul = MatrizDensa.new([[1,2,3],[1,2,3],[0,0,0]])
+		
+		(@MaDis +  @MaDis2).should eq @MaDis3
+		
+	end 
  end
  
- describe "Se puede sumar una matriz dispersa" do
-	it " con una densa" do
-		@MaDis =  MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
-		@MaDen = MatrizDensa.new([[1,2,0],[1,2,3],[0,0,0]])
-		@MaDenResul = MatrizDensa.new([[1,2,0],[2,4,6],[0,0,0]])
-		
-		(@MaDen +  @MaDis).should eq @MaDenResul
+ describe "Se puede sumar una matriz densa" do
+	it " con una dispersa y den resultado una densa" do
+		@MaDispersa1 =  MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
+		@MaDensa1 = MatrizDensa.new([[1,2,3],[1,2,3],[0,0,0]])
+		@MaDensaResul1 = MatrizDensa.new([[1,2,3],[2,4,6],[0,0,0]])
+
+		(@MaDensa1 +  @MaDispersa1).should eq @MaDensaResul1
 		
 	end
  end

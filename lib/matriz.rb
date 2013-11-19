@@ -49,7 +49,7 @@ module Operatoria
       if ((self.filas.size==other.filas.size) && (self.columnas.size==other.columnas.size))
          self.filas.times do |i| 
             self.columnas.times do |j|
-               if (self.matriz[i,j] != other.matriz[i,j])
+               if (self.matriz[i][j] != other.matriz[i][j])
 	          dev=false
 	       else
 	       end
@@ -106,7 +106,17 @@ class Matriz
       @filas = matriz.size
       @columnas = matriz[0].size
       @n_elementos= (matriz.size * matriz[0].size)*0.6 
-      comprobar(matriz)
+       n_ceros=0
+      filas.times do |i|
+         columnas.times do |j|
+	    if (matriz[i][j]==0)  
+	       n_ceros=n_ceros+1
+			end
+      end
+      end
+      if n_ceros > @n_elementos
+         raise RuntimeError, 'La Matriz no es densa'
+      end
      
    end
    
@@ -146,9 +156,9 @@ end
 #matriz normal
 class MatrizDensa < Matriz
 
-	def +(other)
-			suma=MatrizDensa.new(Array.new(@filas,1){Array.new(@columnas,1)})
-			 filas.times do |i|
+	def +(other) 
+		suma=MatrizDensa.new(Array.new(@filas,1){Array.new(@columnas,1)})
+		filas.times do |i|
          columnas.times do |j|
 						if (other.hash_no_ceros.key?("#{i}#{j}"))
 							suma.matriz[i][j] = other.hash_no_ceros["#{i}#{j}"] + matriz[i][j]
@@ -174,13 +184,7 @@ class MatrizDispersa < Matriz
        
      #comprobamos que la matriz es dispersa o no
      @n_elementos= (matriz.size * matriz[0].size)*0.6 
-     comprobar(matriz)
-      
-   end
-   
-   def comprobar (matriz)
-   
-	  n_ceros=0
+     n_ceros=0
       filas.times do |i|
          columnas.times do |j|
 						if (matriz[i][j]==0)  
@@ -196,7 +200,16 @@ class MatrizDispersa < Matriz
          raise RuntimeError, 'La Matriz no es dispersa'
       else
       end
+      
+   end
    
+   
+   def comprobar (hash)
+	if hash.length  > ((@filas * @columnas)*0.4)
+		false
+	else
+		true
+   end
    end
     
     def to_s
@@ -219,7 +232,17 @@ class MatrizDispersa < Matriz
       raise ArgumentError, "La longitud de las matrices no coincide." unless @filas == other.filas && @columnas == other.columnas
       suma=MatrizDispersa.new(Array.new(@filas,0){Array.new(@columnas,0)})
       suma.hash_no_ceros = (hash_no_ceros.merge(other.hash_no_ceros){|key,oldval,newval| oldval+newval}).clone
-      return suma
+      if comprobar(suma.hash_no_ceros)
+		return suma
+      else
+		m = Array.new(@filas,0){Array.new(@columnas,0)}
+		suma.hash_no_ceros.each {|key, value| m[(key[0]).to_i][(key[1]).to_i] = value }
+		puts m[0][0]
+		sum = MatrizDensa.new(m)
+		puts sum
+		return sum
+      end
+      
 			
     end
     
