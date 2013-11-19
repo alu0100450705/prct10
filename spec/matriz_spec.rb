@@ -130,11 +130,11 @@ describe Matriz do
 	end
 	
 	it "sumar 2 matrices dispersas y den resultado una densa" do
-		@MaDis =  MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
-		@MaDis2 = MatrizDispersa.new([[1,2,3],[0,0,0],[0,0,0]])
+		@MaDis11 =  MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
+		@MaDis22 = MatrizDispersa.new([[1,2,3],[0,0,0],[0,0,0]])
 		@MaDenResul = MatrizDensa.new([[1,2,3],[1,2,3],[0,0,0]])
 		
-		(@MaDis +  @MaDis2).should eq @MaDis3
+		(@MaDis11 +  @MaDis22).should eq @MaDenResul
 		
 	end 
  end
