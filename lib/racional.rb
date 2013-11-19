@@ -1,6 +1,4 @@
 require "gcd.rb"  #definicion del mcd
-
-require "gcd.rb"
 # Definicion de la clase Fraccion
 class Fraccion
         attr_reader :numerador, :denominador # Se definen set y get para acceder a las variables de la clase.

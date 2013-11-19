@@ -1,5 +1,4 @@
 # coding: utf-8
-require "racional.rb" #definicion de la clase racional
 
 module Operatoria
      
@@ -97,7 +96,8 @@ end
   
 #Clase Base que contiene el metodo initilize y los getters. Además contiene el to_s y el método [] 
 class Matriz
-    
+   require "racional.rb" #definicion de la clase racional
+   
    include Operatoria
    attr_accessor :matriz, :filas, :columnas
    
@@ -266,5 +266,8 @@ class MatrizDispersa < Matriz
     
    
 end
+
+# m1=Matriz.new([[2,0,1],[3,0,0],[5,1,1]])
+# m2=Matriz.new([[1,0,1],[1,2,1],[1,1,0]])
 
 
