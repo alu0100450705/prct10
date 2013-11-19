@@ -233,13 +233,11 @@ class MatrizDispersa < Matriz
       suma=MatrizDispersa.new(Array.new(@filas,0){Array.new(@columnas,0)})
       suma.hash_no_ceros = (hash_no_ceros.merge(other.hash_no_ceros){|key,oldval,newval| oldval+newval}).clone
       if comprobar(suma.hash_no_ceros)
-		return suma
+					return suma
       else
-		m = Array.new(@filas,0){Array.new(@columnas,0)}
-		suma.hash_no_ceros.each {|key, value| m[(key[0]).to_i][(key[1]).to_i] = value }
-		puts m[0][0]
-		sum = MatrizDensa.new(m)
-		puts sum
+					m = Array.new(@filas,0){Array.new(@columnas,0)}
+					suma.hash_no_ceros.each {|key, value| m[(key[0]).to_i][(key[1]).to_i] = value }
+					sum = MatrizDensa.new(m)
 		return sum
       end
       
@@ -250,10 +248,17 @@ class MatrizDispersa < Matriz
       raise TypeError, "La matriz other no es dispersa" unless other.instance_of? MatrizDispersa
       raise ArgumentError, "La longitud de las matrices no coincide." unless @filas == other.filas && @columnas == other.columnas
       resta=MatrizDispersa.new(Array.new(@filas,0){Array.new(@columnas,0)})
-      resta.hash_no_ceros = (self.hash_no_ceros.merge(other.hash_no_ceros){|key,oldval,newval| oldval-newval}).clone
-      return resta
-			
-    end
+      resta.hash_no_ceros = (self.hash_no_ceros.merge(other.hash_no_ceros){|key,oldval,newval| oldval-0-newval}).clone      
+      if comprobar(resta.hash_no_ceros)
+					return resta
+      else
+					puts resta.hash_no_ceros
+					m = Array.new(@filas,0){Array.new(@columnas,0)}
+					resta.hash_no_ceros.each {|key, value| m[(key[0]).to_i][(key[1]).to_i] = value }
+					res = MatrizDensa.new(m)
+					return res
+			end
+		end
     
    def ==(other)
 			hash_no_ceros == other.hash_no_ceros

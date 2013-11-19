@@ -26,7 +26,6 @@ describe Matriz do
   @MatrizB = Matriz.new([[1,1],[2,2]])
   @MatrizC = Matriz.new([[1,1],[2,2]])
 	@Matriz_Resultado = Matriz.new([[2,2],[4,4]])
-	#@Matriz_Resultado1 = Matriz.new([[0,0],[0,0]])
 	@MatrizAmul = Matriz.new([[2,0,1],[3,0,0],[5,1,1]])
   @MatrizBmul = Matriz.new([[1,0,1],[1,2,1],[1,1,0]])
   @Matriz_Resultado_mul = Matriz.new([[3,1,2],[3,0,3],[7,3,6]])
@@ -72,7 +71,7 @@ describe Matriz do
 			end
 			
 			 it "restar dos matrices de enteros" do
-				#(@MatrizA - @MatrizB ).should eq @Matriz_Resultado1
+				(@MatrizA - @MatrizB ).matriz.should eq [[0,0],[0,0]]
 			 end
 			
 			it "multiplicar por un numero" do
@@ -148,6 +147,14 @@ describe Matriz do
 		(@MaDensa1 +  @MaDispersa1).should eq @MaDensaResul1
 		
 	end
+	
+ end
+ 
+ it "Se puede restar una matriz dipersa con una dispersa y dar una densa " do
+			@MaDis11 =  MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
+			@MaDis22 = MatrizDispersa.new([[1,2,3],[0,0,0],[0,0,0]])
+			@MaDenResul = MatrizDensa.new([[-1,-2,-3],[1,2,3],[0,0,0]])
+			#(@MaDis11 -  @MaDis22).should eq @MaDenResul
  end
  
  
