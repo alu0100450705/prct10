@@ -36,6 +36,10 @@ describe Matriz do
   @MaDis2 = MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
   @MaDis3 = MatrizDispersa.new([[0,0,0],[2,4,6],[0,0,0]])
   @MaDis4 = MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
+  
+  @MD= MatrizDensa.new([[1,2,3],[4,5,6],[7,8,9]])
+  
+  
   end
   
   describe "Debe existir " do
@@ -57,18 +61,21 @@ describe Matriz do
 	end
 	
 	describe "Se puede " do
-			it "accerdera un subindice" do 
+			it "acerder a un subindice" do 
 				@MatrizA.matriz[0][0].should eq 1
 			end
 			
 			it "modificar un subindice" do 
 				@MatrizC.matriz[0][0] = 2
-				@MatrizA.matriz[0][0].should eq 1
+				@MatrizC.matriz[0][0].should eq 2 
 			end
 			
 			it "sumar dos matrices de enteros" do
 				( @MatrizA + @MatrizB ).should eq @Matriz_Resultado
 			end
+			
+			#añadir prueba para multiplicar dos matrices donde una sea 3x2 y la otra 2x3
+			#otra prueba donde no se pueda multiplicar 
 			
 			 it "restar dos matrices de enteros" do
 				(@MatrizA - @MatrizB ).matriz.should eq [[0,0],[0,0]]
@@ -109,10 +116,10 @@ describe Matriz do
  
  describe "se poder comprobar si la " do
 		it " matriz es dispersa" do
-			MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
+			(@MaDis.instance_of? MatrizDispersa).should be_true 
 		end
 		it "matriz densa" do
-			MatrizDensa.new([[0,0,0],[1,2,3],[1,1,0]])
+			(@MD.instance_of? MatrizDensa).should be_true
 		end
 	
  end
@@ -157,7 +164,15 @@ describe Matriz do
 			#(@MaDis11 -  @MaDis22).should eq @MaDenResul
  end
  
- 
-  
+ describe "Debe existir " do
+    it "Multiplicacion de matrices dispersas" do
+#        (MatrizDispersa.respond_to? :* ).should be_true
+    end
+    
+    it "Y hacerla correctamente " do
+      mdmultaux=@MaDis3*@MaDis4
+      (mdmultaux).instance_of? MatrizDispersa
+    end
+ end
  
 end

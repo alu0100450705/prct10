@@ -75,6 +75,7 @@ module Operatoria
    
    #Dos matrices son multiplicables si el numero de columnas de A coincide con el numero de filas de B
    def * (other)
+      puts "dentro de producto de Matriz"
       raise ArgumentError, "La longitud de las matrices no coincide." unless @columnas == other.filas
       elemento = Array.new
       acumulado = 0
@@ -263,11 +264,48 @@ class MatrizDispersa < Matriz
    def ==(other)
 			hash_no_ceros == other.hash_no_ceros
    end
+   
+   def *(other)
+      puts "Dentro de mult de dispersa"
+      raise TypeError, "La matriz other no es dispersa" unless other.instance_of? MatrizDispersa
+      raise ArgumentError, "La longitud de las matrices no coincide." unless @columnas == other.filas 
+      sum=0;
+      c=0;
+#       [i][k] * other.matriz[k][j]
+      elemento = Hash.new {}
+      mult=0
+      self.filas.times do |i|
+         other.columnas.times do |j|
+            acumulado = 0
+            self.columnas.times do |k|
+               if ( (self.hash_no_ceros.key?("#{i}#{k}")) && (other.hash_no_ceros.key?("#{k}#{j}")))
+	          mult=self.hash_no_ceros["#{i}#{k}"] * other.hash_no_ceros["#{k}#{j}"]  
+	       else
+	          #sumarle 0 al acumulado 
+		  if (self.hash_no_ceros.key?("#{i}#{k}") == false )
+		     mult=0;   
+		  else
+		     mult=0;   
+		  end
+	       end
+	       acumulado+=mult
+            end
+	      pos="#{i}#{j}"
+	      if (acumulado!=0)
+	         elemento[ pos ] = acumulado #se queda con el ultimo valor  
+	      else
+	      end
+         end
+      end
+      return(elemento)
+   end
     
    
 end
 
-# m1=Matriz.new([[2,0,1],[3,0,0],[5,1,1]])
-# m2=Matriz.new([[1,0,1],[1,2,1],[1,1,0]])
+# mdis1 = MatrizDispersa.new([[0,0,0],[2,4,6],[0,0,0]])
+# # mdis2 = MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
+# # mdis3= mdris1 * mdis2
+# mdis1.respond_to?
 
 
