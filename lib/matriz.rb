@@ -152,6 +152,33 @@ class Matriz
       matriz[i][j]
    end
    
+   def maximo
+      max=0;
+      filas.times do |i|   
+         columnas.times do |j|
+	    if matriz[i][j] > max
+	       max=matriz[i][j]
+	    else
+	    end
+	 end
+      end
+      return max  
+   end
+   
+   
+   def minimo
+      min=9999;
+      filas.times do |i|   
+         columnas.times do |j|
+	    if matriz[i][j] < min
+	       min=matriz[i][j]
+	    else
+	    end
+	 end
+      end
+      return min  
+   end
+   
 end
 
 #matriz normal
@@ -264,6 +291,7 @@ class MatrizDispersa < Matriz
    def ==(other)
 			hash_no_ceros == other.hash_no_ceros
    end
+<<<<<<< HEAD
    
    def *(other)
       puts "Dentro de mult de dispersa"
@@ -300,12 +328,59 @@ class MatrizDispersa < Matriz
       return(elemento)
    end
     
+=======
+>>>>>>> eb2b737a01b065ede36ed9545963d3d644f7ca44
    
+#    def *(other)
+#       raise TypeError, "La matriz other no es dispersa" unless other.instance_of? MatrizDispersa
+#       raise RuntimeError, "El tamaño de las matrices no coincide" unless self.columnas= other.filas
+#       
+#      
+#    end
+   
+   def maximo
+      max=0;
+      filas.times do |i|
+         columnas.times do |j|  
+            if (hash_no_ceros.key?("#{i}#{j}"))
+	       if (hash_no_ceros["#{i}#{j}"] > max)
+	          max=hash_no_ceros["#{i}#{j}"]
+	       else
+	       end
+	    else
+	    end
+	 end
+      end
+      return max
+   end
+   
+   def minimo
+      min=1000;
+      filas.times do |i|
+         columnas.times do |j|  
+            if (hash_no_ceros.key?("#{i}#{j}"))
+	       if (hash_no_ceros["#{i}#{j}"] < min)
+	          min=hash_no_ceros["#{i}#{j}"]
+	       else
+	       end
+	    else
+	    end
+	 end
+      end
+      return min
+   end 
 end
 
+<<<<<<< HEAD
 # mdis1 = MatrizDispersa.new([[0,0,0],[2,4,6],[0,0,0]])
 # # mdis2 = MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
 # # mdis3= mdris1 * mdis2
 # mdis1.respond_to?
 
+=======
+# m1 =  MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
+# puts "el maximo en m1 es #{m1.maximo} y el minimo #{m1.minimo}"
+# m2= MatrizDensa.new([[2,3,2],[2,2,5],[2,2,2]])
+# puts "el maximo en m2 es #{m2.maximo} y el minimo #{m2.minimo}"
+>>>>>>> eb2b737a01b065ede36ed9545963d3d644f7ca44
 

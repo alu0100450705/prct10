@@ -20,7 +20,9 @@ describe Matriz do
 	@Matriz_Resultado_frac = Matriz.new([[medio,medio],[quinto2,quinto2]])
 	@Matriz_Resultado_frac_rest = Matriz.new([[cero,cero],[cero,cero]])
 	@Matriz_Resultado_frac_mul = Matriz.new([[siete,nueve],[siete,nueve]])
-	
+  
+  @MDen5=MatrizDensa.new([[2,3,2],[2,2,5],[2,2,2]])
+  
   @MatrizA = Matriz.new([[1,1],[2,2]])
   @Matrizop = Matriz.new([[-1,-1],[-2,-2]])
   @MatrizB = Matriz.new([[1,1],[2,2]])
@@ -28,9 +30,7 @@ describe Matriz do
 	@Matriz_Resultado = Matriz.new([[2,2],[4,4]])
 	@MatrizAmul = Matriz.new([[2,0,1],[3,0,0],[5,1,1]])
   @MatrizBmul = Matriz.new([[1,0,1],[1,2,1],[1,1,0]])
-  @Matriz_Resultado_mul = Matriz.new([[3,1,2],[3,0,3],[7,3,6]])
-  
-  
+
   #matrices dispersas
   @MaDis =  MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
   @MaDis2 = MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
@@ -39,8 +39,11 @@ describe Matriz do
   
   @MD= MatrizDensa.new([[1,2,3],[4,5,6],[7,8,9]])
   
+  @MDis5=MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
   
-  end
+  #Matrices Densas
+  @MD1= MatrizDensa.new([[1,3,0],[1,2,3],[1,1,0]])
+  end 
   
   describe "Debe existir " do
 		it "filas " do
@@ -68,6 +71,7 @@ describe Matriz do
 			it "modificar un subindice" do 
 				@MatrizC.matriz[0][0] = 2
 				@MatrizC.matriz[0][0].should eq 2 
+
 			end
 			
 			it "sumar dos matrices de enteros" do
@@ -119,7 +123,7 @@ describe Matriz do
 			(@MaDis.instance_of? MatrizDispersa).should be_true 
 		end
 		it "matriz densa" do
-			(@MD.instance_of? MatrizDensa).should be_true
+			(@MD1.instance_of? MatrizDensa).should be_true
 		end
 	
  end
@@ -134,7 +138,7 @@ describe Matriz do
 	it "restar 2 matrices dispersas"do
 		(@MaDis3 -  @MaDis2).should eq @MaDis4
 	end
-	
+	#en realidad solo comprueba el resultado,el resultado sigue siendo disperso
 	it "sumar 2 matrices dispersas y den resultado una densa" do
 		@MaDis11 =  MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
 		@MaDis22 = MatrizDispersa.new([[1,2,3],[0,0,0],[0,0,0]])
@@ -144,7 +148,7 @@ describe Matriz do
 		
 	end 
  end
- 
+ #en realidad solo comprueba el resultado,el resultado sigue siendo disperso
  describe "Se puede sumar una matriz densa" do
 	it " con una dispersa y den resultado una densa" do
 		@MaDispersa1 =  MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
@@ -161,7 +165,7 @@ describe Matriz do
 			@MaDis11 =  MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
 			@MaDis22 = MatrizDispersa.new([[1,2,3],[0,0,0],[0,0,0]])
 			@MaDenResul = MatrizDensa.new([[-1,-2,-3],[1,2,3],[0,0,0]])
-			#(@MaDis11 -  @MaDis22).should eq @MaDenResul
+# 			(@MaDis11 -  @MaDis22).should eq @MaDenResul
  end
  
  describe "Debe existir " do
@@ -174,5 +178,25 @@ describe Matriz do
       (mdmultaux).instance_of? MatrizDispersa
     end
  end
+
+ describe "Se debe obtener el mínimo " do
+    it "De una matriz Densa " do
+       (@MDen5.minimo).should eq 2
+    end
+    it "De una matriz Dispersa" do
+       (@MaDis5.minimo).should eq 0
+    end
+ end
+ 
+  describe "Se debe obtener el máximo " do
+    it "De una matriz Densa " do
+       (@MDen5.maximo).should eq 5
+    end
+    it "De una matriz Dispersa" do
+       (@MDis5.maximo).should eq 3
+    end
+ end
+ 
+  
  
 end
