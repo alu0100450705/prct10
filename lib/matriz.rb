@@ -291,8 +291,7 @@ class MatrizDispersa < Matriz
    def ==(other)
 			hash_no_ceros == other.hash_no_ceros
    end
-<<<<<<< HEAD
-   
+
    def *(other)
       puts "Dentro de mult de dispersa"
       raise TypeError, "La matriz other no es dispersa" unless other.instance_of? MatrizDispersa
@@ -327,9 +326,7 @@ class MatrizDispersa < Matriz
       end
       return(elemento)
    end
-    
-=======
->>>>>>> eb2b737a01b065ede36ed9545963d3d644f7ca44
+
    
 #    def *(other)
 #       raise TypeError, "La matriz other no es dispersa" unless other.instance_of? MatrizDispersa
@@ -371,16 +368,5 @@ class MatrizDispersa < Matriz
    end 
 end
 
-<<<<<<< HEAD
-# mdis1 = MatrizDispersa.new([[0,0,0],[2,4,6],[0,0,0]])
-# # mdis2 = MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
-# # mdis3= mdris1 * mdis2
-# mdis1.respond_to?
 
-=======
-# m1 =  MatrizDispersa.new([[0,0,0],[1,2,3],[0,0,0]])
-# puts "el maximo en m1 es #{m1.maximo} y el minimo #{m1.minimo}"
-# m2= MatrizDensa.new([[2,3,2],[2,2,5],[2,2,2]])
-# puts "el maximo en m2 es #{m2.maximo} y el minimo #{m2.minimo}"
->>>>>>> eb2b737a01b065ede36ed9545963d3d644f7ca44
 
